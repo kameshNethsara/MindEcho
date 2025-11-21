@@ -1,10 +1,10 @@
-import {} from 'react'
+import { AuthProvider } from "./context/AuthContext"
+import Router from "./routes"
 
-function App() {
+export default function App() {
   return (
-    <div>App</div>
-    
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   )
 }
-
-export default App
