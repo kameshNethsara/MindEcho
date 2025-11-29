@@ -50,6 +50,7 @@ export const register = async(req: Request, res: Response) => {
             roles: assignedRoles,
             gender: Gender.OTHER,
             status: Status.ACTIVE,
+            createAt: new Date()
         })
 
         // Send success response
@@ -178,7 +179,8 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
                 email,
                 roles,
                 gender,
-                status
+                status,
+                createdAt: user.createdAt
             }
         })
     } catch (error) {

@@ -5,6 +5,7 @@ import {
     register,
     refreshToken
 } from "../controllers/auth.controller"
+
 import { authenticate } from "../middleware/auth"
 
 const router = Router()
@@ -16,6 +17,9 @@ router.post('/register', register)
 router.post('/login', login)
 // refresh - public
 router.post("/refresh", refreshToken)
+
+//=================USER=================
+
 
 //=================ADMIN=================
 // register (ADMIN) - can be accessed by Admin only

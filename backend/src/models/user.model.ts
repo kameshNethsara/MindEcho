@@ -25,7 +25,7 @@ export interface IUSER extends Document {
     roles: Role[];
     gender?: Gender;
     status: Status;
-    // createdAt: Date;
+    createdAt: Date;
     // updatedAt: Date;
 }
 
@@ -62,10 +62,10 @@ const userSchema = new Schema<IUSER>({
         required: true,
         default: Status.ACTIVE,
     },
-    // createdAt: {
-    //     type: Date,
-    //     default: Date.now,
-    // },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
     // updatedAt: {
     //     type: Date,
     //     default: Date.now,
