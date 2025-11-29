@@ -1,11 +1,4 @@
-# FastAPI - super-fast Python framework for building APIs and AI backends
-fastapi==0.100.0
-
-# Uvicorn (standard) - lightweight server for running FastAPI apps
-uvicorn[standard]==0.22.0
-
-# Requests - used to make HTTP requests (for calling external APIs)
-requests==2.31.0
-
-# python-dotenv - loads environment variables from a .env file (for API keys, secrets, etc.)
-python-dotenv==1.0.0
+fastapi
+uvicorn
+python-dotenv
+openai
