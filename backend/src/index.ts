@@ -1,41 +1,48 @@
-import express from "express"
-import cors from "cors"
-import mongoose from "mongoose"
-import authRouter from "./routes/auth.route"
-import dotenv from "dotenv"
-dotenv.config()
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import authRouter from "./routes/auth.route";
+import aiRouter from "./routes/ai.route"
+import dotenv from "dotenv";
+// fetch is available globally in Node 18+ (no import needed).
+// If running Node < 18 and you must use node-fetch, install it and its types:
+//   npm install node-fetch
+//   npm install -D @types/node-fetch
+// then uncomment the following import:
+// import fetch from "node-fetch"; // Node < 20, if needed
 
-console.log("Backend is working...")
+dotenv.config();
+console.log("Backend is working...");
 
-const PORT = process.env.PORT
-const MONGODB_URI = process.env.MONGODB_URI as string
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-
+// Middleware
+app.use(express.json());
 app.use(
-    cors({
-        origin: ["http://localhost:5173"],
-        methods: ["GET", "POST", "PUT", "DELETE"] // optional 
-    })
-)
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
-app.use("/api/v1/auth", authRouter)
+// Routes
+app.use("/api/v1/auth", authRouter);
 
+// MindEcho route
+app.use("/api/v1/mindecho", aiRouter);
+
+// Connect to MongoDB and start server
 mongoose
-    .connect(MONGODB_URI)
-    .then(() => {
-        console.log("Connected to MongoDB")
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`)
-        })
-    })
-    .catch((error) => {
-        console.error("Error connecting to MongoDB:", error)
-    })
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
-
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
