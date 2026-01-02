@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import authRouter from "./routes/auth.route";
 import aiRouter from "./routes/ai.route"
+import journalRouter from "./routes/journal.route";
+import userRouter from "./routes/user.route";
 import dotenv from "dotenv";
 // fetch is available globally in Node 18+ (no import needed).
 // If running Node < 18 and you must use node-fetch, install it and its types:
@@ -33,6 +35,8 @@ app.use("/api/v1/auth", authRouter);
 
 // MindEcho route
 app.use("/api/v1/mindecho", aiRouter);
+app.use("/api/v1/journals", journalRouter);
+app.use("/api/v1/users", userRouter);
 
 // Connect to MongoDB and start server
 mongoose
