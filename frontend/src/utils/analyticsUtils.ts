@@ -71,3 +71,26 @@ export function calculateMoodScore(journals: Journal[]) {
 
   return Number((total / journals.length).toFixed(1))
 }
+
+// Weekly Summary for Profile
+export function getWeeklySummaryForProfile(journals: any[]) {
+  if (!journals || journals.length === 0) {
+    return { mostFrequentMood: 'None', journalEntries: 0 };
+  }
+
+  // Count moods
+  const moodCounts: Record<string, number> = {};
+  journals.forEach(j => {
+    const emoji = j.moodEmoji;
+    if (emoji) moodCounts[emoji] = (moodCounts[emoji] || 0) + 1;
+  });
+
+  // Find the most frequent mood
+  const mostFrequentMood =
+    Object.entries(moodCounts).sort((a, b) => b[1] - a[1])[0][0];
+
+  return {
+    mostFrequentMood,
+    journalEntries: journals.length,
+  };
+}

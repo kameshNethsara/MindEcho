@@ -43,3 +43,14 @@ export const deleteJournal = async (id: string) => {
   const response = await API.delete(`/journals/delete-journal/${id}`);
   return response.data;
 };
+
+// get all journals (admin only)
+export const getAllJournalsAdmin = async (page = 1, limit = 100) => {
+  const response = await API.get(
+    `/journals/get-all-journals?page=${page}&limit=${limit}`
+  );
+  return response.data;
+};
+
+
+
