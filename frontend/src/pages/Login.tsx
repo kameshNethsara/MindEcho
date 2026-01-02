@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { login, getMyDetails } from "../services/auth.service";
 import { useNavigate, Link } from "react-router-dom";
-import FloatingLeaves from "../components/FloatingLeaves"; // make sure path is correct
+import FloatingLeaves from "../components/FloatingLeaves"; // ensure path is correct
+import Swal from "sweetalert2";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,11 @@ export default function Login() {
     e.preventDefault();
 
     if (!email.trim() || !password.trim()) {
-      alert("Please enter both email and password.");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Credentials",
+        text: "Please enter both email and password.",
+      });
       return;
     }
 
@@ -27,18 +32,40 @@ export default function Login() {
         localStorage.setItem("refreshToken", data.data.refreshToken);
 
         const resData = await getMyDetails();
-
         setUser(resData.data);
-        navigate("/home");
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful!",
+          text: "Welcome back 😊",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+
+        // navigate("/home");
+        const roles: string[] = resData.data.roles || [];
+        if (roles.includes("admin")) {
+          navigate("/admin-home");
+        } else {
+          navigate("/home");
+        }
       } else {
-        alert("Login failed, Please Check Credentials");
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: "Please check your credentials.",
+        });
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("Login failed, please check your credentials.");
+      Swal.fire({
+        icon: "error",
+        title: "Login Error",
+        text: "Something went wrong. Please try again later.",
+      });
     }
   };
-
+  
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4">
       {/* 🌿 Floating leaves in the background */}
@@ -107,6 +134,16 @@ export default function Login() {
               Sign Up
             </Link>
           </p>
+          
+          <div className="flex justify-center mt-1">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-purple-600 hover:text-blue-600 font-medium transition-colors duration-200"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+
         </div>
       </div>
     </div>

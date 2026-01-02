@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../services/auth.service";
 import FloatingLeaves from "../components/FloatingLeaves";
+import Swal from "sweetalert2";
 
 export default function Register() {
   const [firstname, setFirstname] = useState("");
@@ -15,7 +16,11 @@ export default function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      Swal.fire({
+        icon: "warning",
+        title: "Password Mismatch",
+        text: "Passwords do not match!",
+      });
       return;
     }
 
@@ -27,14 +32,25 @@ export default function Register() {
         password,
       });
 
-      alert(`Registration successful! Email: ${data.data.email}`);
+      await Swal.fire({
+        icon: "success",
+        title: "Registration Successful!",
+        text: `Welcome ${data.data.firstname}! Your email: ${data.data.email}`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
       navigate("/login");
     } catch (err: any) {
       console.error("Registration error:", err);
-      alert(err?.response?.data?.message || "Registration failed. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: err?.response?.data?.message || "Please try again later.",
+      });
     }
   };
-
+  
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4">
       {/* 🌿 Floating leaves in the background */}
