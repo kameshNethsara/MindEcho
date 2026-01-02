@@ -50,6 +50,7 @@ export const register = async(req: Request, res: Response) => {
             roles: assignedRoles,
             gender: Gender.OTHER,
             status: Status.ACTIVE,
+            imgUrl: "",
             createAt: new Date()
         })
 
@@ -63,7 +64,9 @@ export const register = async(req: Request, res: Response) => {
                 email: user.email,
                 roles: user.roles,
                 gender: user.gender,
-                status: user.status
+                status: user.status,
+                imgUrl: user.imgUrl,
+                createdAt: user.createdAt
             }
         })
     } catch (error) {
@@ -91,6 +94,11 @@ export const login = async (req: Request, res: Response) => {
         const existingUser = await User.findOne({ email }) as IUSER | null;
         if (!existingUser) {
             return res.status(404).json({ error: "User not found" })
+        }
+
+        const valid = await bcrypt.compare(password, existingUser.password)
+            if (!valid) {
+            return res.status(401).json({ message: "Invalid credentials" })
         }
 
         const accessToken = signAccessToken(existingUser);
@@ -180,6 +188,7 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
                 roles,
                 gender,
                 status,
+                imgUrl: user.imgUrl,
                 createdAt: user.createdAt
             }
         })

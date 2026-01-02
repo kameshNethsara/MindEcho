@@ -184,3 +184,51 @@ export const deleteJournal = async (req: AuthRequest, res: Response) => {
         });
     }
 };
+
+// ===============================
+// Get All Journals (Admin)
+// ===============================
+export const getAllJournalsAdmin = async (req: AuthRequest, res: Response) => {
+  try {
+    const roles = req.user?.roles || [];
+
+    if (!roles.includes("admin")) {
+    return res.status(403).json({
+        success: false,
+        message: "Forbidden. Admins only.",
+    });
+    }
+
+    let page = Number(req.query.page) || 1;
+    let limit = Number(req.query.limit) || 100;
+
+    if (page < 1) page = 1;
+    if (limit < 1) limit = 100;
+
+    const skip = (page - 1) * limit;
+    const total = await Journal.countDocuments();
+
+    const journals = await Journal.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("userId", "name email"); // optional: get user info
+
+    return res.status(200).json({
+      success: true,
+      data: journals,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        limit,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching all journals:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching all journals.",
+    });
+  }
+};
