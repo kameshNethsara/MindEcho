@@ -122,11 +122,7 @@ AI server will run at: **http://localhost:5001**
 
 ## 🌐 Deployed URLs
 
-| Service | URL |
-|---------|-----|
-| **Frontend** | https://mindecho.vercel.app |
-| **Backend API** | https://mindecho-api.onrender.com |
-| **AI Server** | https://mindecho-ai.onrender.com |
+**Frontend** - https://mind-echo-frontend.vercel.app 
 
 ---
 
