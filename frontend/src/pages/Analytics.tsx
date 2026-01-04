@@ -171,6 +171,13 @@ export default function Analytics() {
               <div className="bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-xl h-80 flex items-center justify-center">
                 {/* <span className="text-purple-600 font-medium text-lg">Bar Chart Placeholder</span> */}
                 <MoodBarChart moods={moods} safe={safe} />
+                {/* <MoodBarChart
+                  moods={moods}
+                  journals={journals.map(j => ({
+                    mood: j.moodEmoji,        // correct field
+                    createdAt: j.createdAt
+                  }))}
+                /> */}
               </div>
 
             {/* 
