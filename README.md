@@ -123,7 +123,7 @@ AI server will run at: **http://localhost:5001**
 ## 🌐 Deployed URLs
 
 **Frontend** - https://mind-echo-frontend.vercel.app 
-
+**Backend** - https://mind-echo-backend-kappa.vercel.app
 ---
 
 ## ✨ Main Features
